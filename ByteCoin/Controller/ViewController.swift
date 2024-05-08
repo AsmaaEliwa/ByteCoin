@@ -29,6 +29,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         cointManager.currencyArray[row]
     }
-    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        currencyLabel.text = cointManager.currencyArray[row]
+        cointManager.getCoinPrice(for: cointManager.currencyArray[row]) { (model: RateModel?) in
+            if let model = model {
+                DispatchQueue.main.async{
+                    self.byteCoinLabel.text = String(format: "%.3f" , model.rate)
+                }
+            }
+        }
+    }
 }
 
